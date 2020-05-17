@@ -1,0 +1,1618 @@
+{
+	"info": {
+		"_postman_id": "ae6384e9-0a76-4ab0-8c62-a17872c8db88",
+		"name": "TigerGraph REST API ++",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Ping database (GET)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/echo/:graph_name",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"echo",
+						":graph_name"
+					],
+					"variable": [
+						{
+							"key": "graph_name",
+							"value": "{{graph_name}}",
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database)."
+						}
+					]
+				},
+				"description": "A simple diagnostic utility. Expected response is `\"message\": \"Hello GSQL\"`.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#get-echo-and-post-echo"
+			},
+			"response": []
+		},
+		{
+			"name": "Ping database (POST)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/echo/:graph_name",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"echo",
+						":graph_name"
+					],
+					"variable": [
+						{
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database).",
+							"key": "graph_name",
+							"value": "{{graph_name}}"
+						}
+					]
+				},
+				"description": "A simple diagnostic utility. Expected response is `\"message\": \"Hello GSQL\"`.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#get-echo-and-post-echo"
+			},
+			"response": []
+		},
+		{
+			"name": "List REST++ API endpoints",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/endpoints/:graph_name?builtin=true&dynamic=true&static=true",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"endpoints",
+						":graph_name"
+					],
+					"query": [
+						{
+							"key": "builtin",
+							"value": "true",
+							"description": "(Optional) Endpoints presinstalled in TigerGraph (like this one)."
+						},
+						{
+							"key": "dynamic",
+							"value": "true",
+							"description": "(Optional) Endpoints generated when installing GSQL queries."
+						},
+						{
+							"key": "static",
+							"value": "true",
+							"description": "(Optional) User installed endpoints."
+						}
+					],
+					"variable": [
+						{
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database).",
+							"key": "graph_name",
+							"value": "{{graph_name}}"
+						}
+					]
+				},
+				"description": "This endpoint returns a list of the installed endpoints and their parameters. There are three types of endpoints, described in the table below.\n* builtin - Endpoints presinstalled in TigerGraph (like this one)\n* dynamic - Endpoints generated when installing GSQL queries\n* static - User installed endpoints\n\nIf no endpoint type parameters are provided, all endpoints are returned.\n\nSome endpoints are listed only in specific circumstances:\n* `/showlicenseinfo` is only available in case enterprise license is installed\n* `/requesttoken` is only available if [REST++ authentication](https://docs.tigergraph.com/admin/admin-guide/user-access-management/user-privileges-and-authentication#rest-authentication) is enabled \n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#get-statistics"
+			},
+			"response": []
+		},
+		{
+			"name": "Get performance statistics",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/statistics/:graph_name",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"statistics",
+						":graph_name"
+					],
+					"query": [
+						{
+							"key": "seconds",
+							"value": "10",
+							"description": "(Optional) Duration of statistics collection. Interger, 1 ≤ n ≤ 60, default: 10",
+							"disabled": true
+						},
+						{
+							"key": "segments",
+							"value": "10",
+							"description": "(Optional) The number of segments in latency distribution.",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "graph_name",
+							"value": "{{graph_name}}",
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database)."
+						}
+					]
+				},
+				"description": "Teturns real-time query performance statistics over the given time period, as specified by the `seconds` parameter.\n\nThe REST++ server maintains a truncated log of requests from the current time and backward for a system-configured `log_interval`. Only those endpoints which have completed or timed out during the requested number of seconds and are within the `log_interval` will be included in the statistics report.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#get-statistics"
+			},
+			"response": []
+		},
+		{
+			"name": "Get version information",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/version/:graph_name",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"version",
+						":graph_name"
+					],
+					"variable": [
+						{
+							"key": "graph_name",
+							"value": "{{graph_name}}",
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database)."
+						}
+					]
+				},
+				"description": "This endpoint returns the git versions of all components of the system.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#get-version"
+			},
+			"response": []
+		},
+		{
+			"name": "Get license information",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/showlicenseinfo/:graph_name",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"showlicenseinfo",
+						":graph_name"
+					],
+					"variable": [
+						{
+							"key": "graph_name",
+							"value": "{{graph_name}}",
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database)."
+						}
+					]
+				},
+				"description": "DEPRECATED"
+			},
+			"response": []
+		},
+		{
+			"name": "Get schema (vertex and edge) details",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"followOriginalHttpMethod": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "string"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "file",
+					"file": {}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port_gui}}/gsqlserver/gsql/schema?graph={{graph_name}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port_gui}}",
+					"path": [
+						"gsqlserver",
+						"gsql",
+						"schema"
+					],
+					"query": [
+						{
+							"key": "graph",
+							"value": "{{graph_name}}",
+							"description": "(REQUIRED) Name of graph."
+						},
+						{
+							"key": "type",
+							"value": "",
+							"description": "(Optional) The name of either a vertex type or an edge type.",
+							"disabled": true
+						}
+					]
+				},
+				"description": "If a vertex or edge name is provided for the `type` parameter: returns the definition of the requested vertex or edge type.\n\nIf no `type` parameter is specified: returns the schema of a graph. The output contains three top-level elements: `GraphName`, `VertexTypes` and `EdgeTypes`.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#get-the-graph-schema-get-gsql-schema"
+			},
+			"response": []
+		},
+		{
+			"name": "List user defined types",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"followOriginalHttpMethod": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "string"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "file",
+					"file": {}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port_gui}}/gsqlserver/gsql/udtlist",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port_gui}}",
+					"path": [
+						"gsqlserver",
+						"gsql",
+						"udtlist"
+					]
+				},
+				"description": "Returns the definition of User Defined Types (UDTs)."
+			},
+			"response": []
+		},
+		{
+			"name": "Get vertices",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/graph/:graph_name/vertices/:vertex_type/:vertex_id",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"graph",
+						":graph_name",
+						"vertices",
+						":vertex_type",
+						":vertex_id"
+					],
+					"query": [
+						{
+							"key": "select",
+							"value": "",
+							"description": "(Optional) Specifies which attributes are to be returned or to be excluded from results:\n• select=attr1,attr2 returns only attributes attr1 and attr2\n• select=-attr1,-attr2 returns all attributes except attributes attr1 andattr2\n• select=-_ returns no attribute at all",
+							"disabled": true
+						},
+						{
+							"key": "filter",
+							"value": null,
+							"description": "(Optional) Specifies a filtert list that is a comma-separated list of filter, and each filter is the concatenation of an attribute, an operator, and a value (with no white spaces separating the parts).\nThe following six comparison operators are supported:\nattr=x | attr!=x | attr>x | attr>= x | attr<x | attr>=x",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "",
+							"description": "(Optional) Sets a limit on the number of vertices returned from a query request.\nNote that there is also a system limit of 10240 on the number of vertices returned. The user-defined limit cannot exceed this system limit.",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "",
+							"description": "(Optional) Returns results sorted by given attributes. The format is sort=list_of_index_attributes.\n• sort=attr : sort by attribute attr1 in ascending order\n• sort=-attr1 : sort by attribute attr1 in descending order\n• sort=attr1,-attr2 : first sort by attr1 in ascending order, then sort by attr2 in descending order",
+							"disabled": true
+						},
+						{
+							"key": "count_only",
+							"value": null,
+							"description": "(Optional) Returns the number of vertices only if true.",
+							"disabled": true
+						},
+						{
+							"key": "timeout",
+							"value": "",
+							"description": "(Optional) Timeout in seconds. If set to 0, use system-wide endpoint timeout setting.",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database).",
+							"key": "graph_name",
+							"value": "{{graph_name}}"
+						},
+						{
+							"description": "(REQUIRED) The name of vertex type.",
+							"key": "vertex_type",
+							"value": ""
+						},
+						{
+							"description": "(Optional) ID of a vertex of the given type (optional; if not provided all vertices of the given type are listed, subject to limits).",
+							"key": "vertex_id",
+							"value": ""
+						}
+					]
+				},
+				"description": "This endpoint returns all vertices having the type `vertex_type` in the graph called `graph_name`, if `vertex_id` is not specified. If `count_only` parameter is `true`, then only the number of (matching) vertices is returned (see info on additional query parameters below).\n\nAlternatively, the returns the details of  particular vertex when its _primary_id_ specified in the `vertex_id` field.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#get-graph-graph_name-vertices\n\nAdditional parameters allows selecting (or excluding) attributes of the vertex type; filtering, sorting and limiting the result set.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#advanced-parameters-for-graph-graph_name-vertices-and-graph-graph_name-edges"
+			},
+			"response": []
+		},
+		{
+			"name": "Get vertex count",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"function\":\"stat_vertex_number\",\n\t\"type\":\"<vertex_type>\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/builtins/:graph_name",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"builtins",
+						":graph_name"
+					],
+					"variable": [
+						{
+							"key": "graph_name",
+							"value": "{{graph_name}}",
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database)."
+						}
+					]
+				},
+				"description": "This function returns the number of vertices of the given vertex type. There is one parameter in the request body:\n* `type`: The vertex type name, or \"*\", which indicates all vertex types.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#post-builtins-graph_name"
+			},
+			"response": []
+		},
+		{
+			"name": "Get vertex attribute statistics",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"function\":\"stat_vertex_attr\",\n\t\"type\":\"<vertex_type>\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/builtins/:graph_name",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"builtins",
+						":graph_name"
+					],
+					"variable": [
+						{
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database).",
+							"key": "graph_name",
+							"value": "{{graph_name}}"
+						}
+					]
+				},
+				"description": "This function returns the minimum, maximum, and average values of the given edge type's `INT`, `UINT`, `FLOAT` and `DOUBLE` attributes, and the count of `true` and `false` values of a `BOOL` attribute. There is one parameter in the request body:\n* `type`: The vertex type name, or \"*\", which indicates all vertex types.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#post-builtins-graph_name"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete vertices",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/graph/:graph_name/vertices/:vertex_type",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"graph",
+						":graph_name",
+						"vertices",
+						":vertex_type"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": "",
+							"description": "(Optional) Specifies a filter list that is a comma-separated list of filter, and each filter is the concatenation of an attribute, an operator, and a value (with no white spaces separating the parts).\nThe following six comparison operators are supported:\nattr=x | attr!=x | attr>x | attr>= x | attr<x | attr>=x",
+							"disabled": true
+						},
+						{
+							"key": "permanent",
+							"value": null,
+							"description": "(Optional) If \"permanent\" is true, the deleted vertex ids can never be inserted back, unless the graph is dropped or the graph store is cleared.",
+							"disabled": true
+						},
+						{
+							"key": "timeout",
+							"value": null,
+							"description": "(Optional) Timeout in seconds. If set to 0, use system-wide endpoint timeout setting.",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "graph_name",
+							"value": "{{graph_name}}",
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database)."
+						},
+						{
+							"key": "vertex_type",
+							"value": "",
+							"description": "(REQUIRED) The type of vertex or vertices to be deleted."
+						}
+					]
+				},
+				"description": "This endpoint deletes the given vertex or vertices in the graph called `graph_name` according to the specified `filter` (equivalent to a `WHERE` condition).\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#delete-graph-graph_name-vertices\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#advanced-parameters-for-graph-graph_name-vertices-and-graph-graph_name-edges"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete vertex by ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/graph/:graph_name/vertices/:vertex_type/:vertex_id",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"graph",
+						":graph_name",
+						"vertices",
+						":vertex_type",
+						":vertex_id"
+					],
+					"query": [
+						{
+							"key": "permanent",
+							"value": null,
+							"description": "(Optional) If \"permanent\" is true, the deleted vertex ids can never be inserted back, unless the graph is dropped or the graph store is cleared.",
+							"disabled": true
+						},
+						{
+							"key": "timeout",
+							"value": null,
+							"description": "(Optional) Timeout in seconds. If set to 0, use system-wide endpoint timeout setting.",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database).",
+							"key": "graph_name",
+							"value": "{{graph_name}}"
+						},
+						{
+							"description": "(REQUIRED) The type of vertex to be deleted.",
+							"key": "vertex_type",
+							"value": ""
+						},
+						{
+							"description": "(Optional) The ID of the vertex to be deleted.",
+							"key": "vertex_id",
+							"value": ""
+						}
+					]
+				},
+				"description": "This endpoint deletes the vertex with the specified ID in the graph called `graph_name`.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#delete-graph-graph_name-vertices"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete vertices by type",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/graph/:graph_name/delete_by_type/vertices/:vertex_type",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"graph",
+						":graph_name",
+						"delete_by_type",
+						"vertices",
+						":vertex_type"
+					],
+					"query": [
+						{
+							"key": "permanent",
+							"value": null,
+							"description": "(Optional) If \"permanent\" is true, the deleted vertex ids can never be inserted back, unless the graph is dropped or the graph store is cleared.",
+							"disabled": true
+						},
+						{
+							"key": "ack",
+							"value": null,
+							"description": "(Optional) Specifies whether REST++ needs to get acknowledgement from GPEs.\n• If set to \"none\", it doesn't need to get acknowledgement from any GPE.\n• If set to \"all\" (default), it needs to get acknowledgement from all GPEs.",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database).",
+							"key": "graph_name",
+							"value": "{{graph_name}}"
+						},
+						{
+							"key": "vertex_type",
+							"value": "",
+							"description": "(REQUIRED) The type of vertex or vertices to be deleted."
+						}
+					]
+				},
+				"description": "This endpoint deletes all vertices of the given vertex type in the graph called `graph_name`.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#delete-graph-graph_name-delete_by_type-vertices"
+			},
+			"response": []
+		},
+		{
+			"name": "Get edges",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/graph/:graph_name/edges/:source_vertex_type/:source_vertex_id/:edge_type/:target_vertext_type/:target_vertex_id",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"graph",
+						":graph_name",
+						"edges",
+						":source_vertex_type",
+						":source_vertex_id",
+						":edge_type",
+						":target_vertext_type",
+						":target_vertex_id"
+					],
+					"query": [
+						{
+							"key": "select",
+							"value": "",
+							"description": "(Optional) Specifies which attributes are to be returned or to be excluded from results:\n• select=attr1,attr2 returns only attributes attr1 and attr2\n• select=-attr1,-attr2 returns all attributes except attributes attr1 andattr2\n• select=-_ returns no attribute at all",
+							"disabled": true
+						},
+						{
+							"key": "filter",
+							"value": "",
+							"description": "(Optional) Specifies a filtert list that is a comma-separated list of filter, and each filter is the concatenation of an attribute, an operator, and a value (with no white spaces separating the parts).\nThe following six comparison operators are supported:\nattr=x | attr!=x | attr>x | attr>= x | attr<x | attr>=x",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "",
+							"description": "(Optional) Sets a limit on the number of edges returned from a query request.\nNote that there is also a system limit of 10240 on the number of edges returned. The user-defined limit cannot exceed this system limit.",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "",
+							"description": "(Optional) Returns results sorted by given attributes. The format is sort=list_of_index_attributes.\n• sort=attr : sort by attribute attr1 in ascending order\n• sort=-attr1 : sort by attribute attr1 in descending order\n• sort=attr1,-attr2 : first sort by attr1 in ascending order, then sort by attr2 in descending order",
+							"disabled": true
+						},
+						{
+							"key": "count_only",
+							"value": null,
+							"description": "(Optional) Returns the number of edges only if true.",
+							"disabled": true
+						},
+						{
+							"key": "timeout",
+							"value": null,
+							"description": "(Optional) Timeout in seconds. If set to 0, use system-wide endpoint timeout setting.",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database).",
+							"key": "graph_name",
+							"value": "{{graph_name}}"
+						},
+						{
+							"description": "(REQUIRED) The type of the source vertex.",
+							"key": "source_vertex_type",
+							"value": ""
+						},
+						{
+							"description": "(REQUIRED) The primary_id of the source vertex.",
+							"key": "source_vertex_id",
+							"value": ""
+						},
+						{
+							"description": "(Optional) The type name of the edges. If omitted or specified as \"_\", then all edge types are permitted. If skipped, then target_vertex_type and target_vertex_id must be skipped too.",
+							"key": "edge_type",
+							"value": ""
+						},
+						{
+							"description": "(Optional) The type of the target vertex.",
+							"key": "target_vertext_type",
+							"value": ""
+						},
+						{
+							"description": "(Optional) The primary_id of the target vertex.",
+							"key": "target_vertex_id",
+							"value": ""
+						}
+					]
+				},
+				"description": "This endpoint returns all edges which connect to a given vertex ID in the graph called `graph_name`. Source vertex type and ID must be given. The user may optionally specify the edge type, the target vertex type, and the target vertex ID.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#get-graph-graph_name-edges\n\nAdditional parameters allows selecting (or excluding) attributes of the edge type; filtering, sorting and limiting the result set.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#advanced-parameters-for-graph-graph_name-vertices-and-graph-graph_name-edges"
+			},
+			"response": []
+		},
+		{
+			"name": "Get edge attribute statistics",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"function\":\"stat_edge_attr\",\n\t\"type\":\"<edge_type>\", \n\t\"from_type\":\"*\", \n\t\"to_type\":\"*\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/builtins/:graph_name",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"builtins",
+						":graph_name"
+					],
+					"variable": [
+						{
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database).",
+							"key": "graph_name",
+							"value": "{{graph_name}}"
+						}
+					]
+				},
+				"description": "This function returns the statistics of the minimum, maximum, and average of the given edge type's `INT`, `UINT`, `FLOAT` and `DOUBLE` attributes, and the count of `true` and `false` values of a `BOOL` attribute.\n\n**Note:** each undirected edge is counted twice. \n\nThere are three parameters in the request body:\n* `type`: The edge type name, or \"*\", which indicates all edge types.\n* `from_type`: Given a vertex type, the function only includes edges whose source vertex type is the given type. \"*\" indicates all types. Default is all types. If a specific edge type is given, giving a correct `from_type` can speed up the process.\n* `to_type`: Given a vertex type, the function only includes edges whose destination vertex type is the given type. \"*\" indicates all types. Default is all types.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#post-builtins-graph_name"
+			},
+			"response": []
+		},
+		{
+			"name": "Get edge count",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"function\":\"stat_edge_number\",\n\t\"type\":\"*\", \n\t\"from_type\":\"*\", \n\t\"to_type\":\"*\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/builtins/:graph_name",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"builtins",
+						":graph_name"
+					],
+					"variable": [
+						{
+							"key": "graph_name",
+							"value": "{{graph_name}}",
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database)."
+						}
+					]
+				},
+				"description": "This function returns the number of edges of the given type.\n\nThere are three parameters in the request body:\n* `type`: The edge type name, or \"*\", which indicates all edge types.\n* `from_type`: Given a vertex type, the function only includes edges whose source vertex type is the given type. \"*\" indicates all types. Default is all types. If a specific edge type is given, giving a correct `from_type` can speed up the process.\n* `to_type`: Given a vertex type, the function only includes edges whose destination vertex type is the given type. \"*\" indicates all types. Default is all types.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#post-builtins-graph_name"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete edges",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/graph/:graph_name/edges/:source_vertex_type/:source_vertex_id/:edge_type/:target_vertex_type/:target_vertex_id",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"graph",
+						":graph_name",
+						"edges",
+						":source_vertex_type",
+						":source_vertex_id",
+						":edge_type",
+						":target_vertex_type",
+						":target_vertex_id"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": "",
+							"description": "(Optional) Specifies a filtert list that is a comma-separated list of filter, and each filter is the concatenation of an attribute, an operator, and a value (with no white spaces separating the parts).\nThe following six comparison operators are supported:\nattr=x | attr!=x | attr>x | attr>= x | attr<x | attr>=x",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "",
+							"description": "(Optional) Sets a limit on the number of edges returned from a query request.\nNote that there is also a system limit of 10240 on the number of edges returned. The user-defined limit cannot exceed this system limit.",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "",
+							"description": "(Optional) Returns results sorted by given attributes. The format is sort=list_of_index_attributes.\n• sort=attr : sort by attribute attr1 in ascending order\n• sort=-attr1 : sort by attribute attr1 in descending order\n• sort=attr1,-attr2 : first sort by attr1 in ascending order, then sort by attr2 in descending order",
+							"disabled": true
+						},
+						{
+							"key": "permanent",
+							"value": null,
+							"description": "(Optional) If \"permanent\" is true, the deleted vertex ids can never be inserted back, unless the graph is dropped or the graph store is cleared.",
+							"disabled": true
+						},
+						{
+							"key": "timeout",
+							"value": null,
+							"description": "(Optional) Timeout in seconds. If set to 0, use system-wide endpoint timeout setting.",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database).",
+							"key": "graph_name",
+							"value": "{{graph_name}}"
+						},
+						{
+							"description": "(REQUIRED) The type of the source vertex.",
+							"key": "source_vertex_type",
+							"value": ""
+						},
+						{
+							"description": "(REQUIRED) The ID of the source vertex.",
+							"key": "source_vertex_id",
+							"value": ""
+						},
+						{
+							"description": "(Optional) The type name of the edges. If omitted or specified as \"_\", then all edge types are permitted. If skipped, then target_vertex_type and target_vertex_id must be skipped too.",
+							"key": "edge_type",
+							"value": ""
+						},
+						{
+							"description": "(Optional) The type of the target vertex.",
+							"key": "target_vertex_type",
+							"value": ""
+						},
+						{
+							"description": "(Optional) The ID of the target vertex.",
+							"key": "target_vertex_id",
+							"value": ""
+						}
+					]
+				},
+				"description": "This endpoint deletes the given edge(s).\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#delete-graph-graph_name-edges"
+			},
+			"response": []
+		},
+		{
+			"name": "Upsert vertices and edges",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/graph/:graph_name",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"graph",
+						":graph_name"
+					],
+					"query": [
+						{
+							"key": "new_vertex_only",
+							"value": null,
+							"description": "(Optional) If set to true, new vertices will be insterted, but existing vertices will nto be updated.",
+							"disabled": true
+						},
+						{
+							"key": "vertex_must_exist",
+							"value": null,
+							"description": "(Optional) if set to true, skips loading edges if both vertices do not exist.",
+							"disabled": true
+						},
+						{
+							"key": "ack",
+							"value": null,
+							"description": "(Optional) Specifies whether REST++ needs to get acknowledgement from GPEs.\n• If set to \"none\", it doesn't need to get acknowledgement from any GPE.\n• If set to \"all\" (default), it needs to get acknowledgement from all GPEs.",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database).",
+							"key": "graph_name",
+							"value": "{{graph_name}}"
+						}
+					]
+				},
+				"description": "This endpoint can upsert vertices and/or edges into the graph called `graph_name`.\n\nDue to the cost of checking for the existence of an edge or a vertex, the standard API does not support separate update and create (insert) operations. Instead, an upsert operation, a combination of update and insert, is provided.\n* If the target vertex or edge already exists, it is updated with the values specified in the request.\n* If the vertex or edge does not yet exist, the action depends on the operator chosen by the user. Some operators will direct the endpoint to create a new vertex or edge using the attribute values in the request.\nThe response is the number of vertices and edges that were accepted. The API uses JSON format to describe the vertices and edges to be upserted. The JSON code can be stored in a text file or specified directly in a command line. There is a maximum size for a POST data payload. See documentation for format of JSON code and limitation.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#post-graph-graph_name-upsert-the-given-data"
+			},
+			"response": []
+		},
+		{
+			"name": "Shortest Path Search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"sources\":[{\"type\":\"<vertex_type>\",\"id\":\"<vertex_id>\"}],\n  \"targets\":[{\"type\":\"<vertex_type>\",\"id\":\"<vertex_id>\"}, {\"type\":\"<vertex_type>\",\"id\":\"<vertex_id>\"}],\n  \"edgeFilters\":[{\"type\":\"<edge_type>\",\"condition\":\"<conditions>}],\n  \"maxLength\":<max_lenght>\n  \"allShortestPaths\": <true_or_false>\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/shortestpath/:graph_name",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"shortestpath",
+						":graph_name"
+					],
+					"variable": [
+						{
+							"key": "graph_name",
+							"value": "{{graph_name}}",
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database)."
+						}
+					]
+				},
+				"description": "Find the shortest path or paths between the source vertex set and the target vertex set. These, plus edge filters and additional paramters are specified as a JSON payload in the request body. The format is:\n```json\n{\n  \"sources\":[{\"type\":\"<vertex_type>\",\"id\":\"<vertex_id>\"}],\n  \"targets\":[{\"type\":\"<vertex_type>\",\"id\":\"<vertex_id>\"}, {\"type\":\"<vertex_type>\",\"id\":\"<vertex_id>\"}],\n  \"edgeFilters\":[{\"type\":\"<edge_type>\",\"condition\":\"<conditions>\"\"}],\n  \"maxLength\":<max_lenght>\n  \"allShortestPaths\": <true_or_false>\n}\n```\n\n* `maxLength`: (Optional) Maximum length of a shortest path. Default is 6.\n* `allShortestPaths`: (Optional) If **true**, the endpoint will return all shortest paths between the source and target. Default is **false**, meaning that the endpoint will return only one path.\n\nSee [documentation](https://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#input-parameters-and-output-format-for-path-finding) for more details on input parameters and output format.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#post-shortestpath-graphname-shortest-path-search"
+			},
+			"response": []
+		},
+		{
+			"name": "All Paths Search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"sources\":[{\"type\":\"<vertex_type>\",\"id\":\"<vertex_id>\"}],\n  \"targets\":[{\"type\":\"<vertex_type>\",\"id\":\"<vertex_id>\"}, {\"type\":\"<vertex_type>\",\"id\":\"<vertex_id>\"}],\n  \"edgeFilters\":[{\"type\":\"<edge_type>\",\"condition\":\"<conditions>\"}],\n  \"maxLength\":<max_length>\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/allpaths/:graph_name",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"allpaths",
+						":graph_name"
+					],
+					"variable": [
+						{
+							"key": "graph_name",
+							"value": "{{graph_name}}",
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database)."
+						}
+					]
+				},
+				"description": "Find all paths between the source vertex set and the target vertex set. These, plus edge filters and additional paramters are specified as a JSON payload in the request body. The format is:\n```json\n{\n  \"sources\":[{\"type\":\"<vertex_type>\",\"id\":\"<vertex_id>\"}],\n  \"targets\":[{\"type\":\"<vertex_type>\",\"id\":\"<vertex_id>\"}, {\"type\":\"<vertex_type>\",\"id\":\"<vertex_id>\"}],\n  \"edgeFilters\":[{\"type\":\"<edge_type>\",\"condition\":\"<conditions>\"\"}],\n  \"maxLength\":<max_length>\n}\n```\n\n* `maxLength`: (REQUIRED) Maximum length of a shortest path. Default is 6.\n\nSee [documentation](https://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#input-parameters-and-output-format-for-path-finding) for more details on input parameters and output format.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#post-allpaths-graphname-all-paths-search"
+			},
+			"response": []
+		},
+		{
+			"name": "Run installed query",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/query/:graph_name/:query?<query_parameters>",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"query",
+						":graph_name",
+						":query"
+					],
+					"query": [
+						{
+							"key": "<query_parameters>",
+							"value": null,
+							"description": "All the parameters defined by the installed query."
+						}
+					],
+					"variable": [
+						{
+							"key": "graph_name",
+							"value": "{{graph_name}}",
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database)."
+						},
+						{
+							"key": "query",
+							"value": "",
+							"description": "(REQUIRED) The name of the query to be executed."
+						}
+					]
+				},
+				"description": "Execute a user-defined, installed query.\n\nhttps://docs.tigergraph.com/dev/gsql-ref/querying/query-operations#running-a-query\n\nTo see a list of the parameter names and types for the user-installed GSQL queries, run the following REST++ request (see GET_endpoints): `curl -X GET \"http://localhost:9000/endpoints?dynamic=true\"`"
+			},
+			"response": []
+		},
+		{
+			"name": "Run interpreted query",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "string"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "INTERPRET QUERY (<params>) FOR GRAPH <graph_name> {\n    <statements>;\n}",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port_gui}}/gsqlserver/interpreted_query",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port_gui}}",
+					"path": [
+						"gsqlserver",
+						"interpreted_query"
+					]
+				},
+				"description": "This endpoint runs a GSQL query in Interpreted Mode. The query body should be supplied at the data payload, and the query's parameters are supplied as the URL's query string.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#post-gsqlserver-interpreted_query-run-an-interpreted-query"
+			},
+			"response": []
+		},
+		{
+			"name": "List running queries",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/showprocesslist/:graph_name",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"showprocesslist",
+						":graph_name"
+					],
+					"variable": [
+						{
+							"key": "graph_name",
+							"value": "{{graph_name}}",
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database)."
+						}
+					]
+				},
+				"description": "This endpoint reports statistics of running queries: the query's request ID, start time, expiration time, and the REST endpoint's URL.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#get-running-queries-showprocesslist-graph_name"
+			},
+			"response": []
+		},
+		{
+			"name": "Abort running queries",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/abortquery/:graph_name",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"abortquery",
+						":graph_name"
+					],
+					"query": [
+						{
+							"key": "requestid",
+							"value": "",
+							"description": "(Optional) The id of a query request to be aborted, or \"all\" to abort all queries.",
+							"disabled": true
+						},
+						{
+							"key": "url",
+							"value": "",
+							"description": "(Optional) The URL of the query endpoint.",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "graph_name",
+							"value": "{{graph_name}}",
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database)."
+						}
+					]
+				},
+				"description": "The /abortquery endpoint safely aborts the selected query or queries. Either the GET or POST method may be used.\n\n* To abort one query request, use the `requestid` parameter to specify its request (obtained from `/showprocesslist`), e.g. `?requestid=16842763.RESTPP_1_1.1561401340785.N`\n* To abort all queries, instead of using specific requestids, use `requestid=all`.\n* To abort all queries of a given endpoint or endpoints, there is an option to input a string for the query's REST endpoint url. You must specify the base of the endpoint's URL, but then use a wildcard to allow for different parameters. For example, to abort all running queries for the endpoint `/sleepgpe`, use `url=/sleepgpe.*`\n\nEither `requestid` or `url` must be provided.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#abort-a-query-abortquery-graph_name"
+			},
+			"response": []
+		},
+		{
+			"name": "Run loading job",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/ddl/:graph_name?tag&filename",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"ddl",
+						":graph_name"
+					],
+					"query": [
+						{
+							"key": "tag",
+							"value": null,
+							"description": "(REQUIRED) Loading job name defined in the DDL loading job."
+						},
+						{
+							"key": "filename",
+							"value": null,
+							"description": "(REQUIRED) File variable name or filepath for the file containing the data."
+						},
+						{
+							"key": "sep",
+							"value": null,
+							"description": "(Optional) Separator of CSV data. Default is comma.\nIf your data is JSON, you do not need to specify this parameter.",
+							"disabled": true
+						},
+						{
+							"key": "eol",
+							"value": null,
+							"description": "(Optional) End-of-line character. Default is '\\n`.\nOnly one character is allowed, except for the special case \"\\r\\n\"",
+							"disabled": true
+						},
+						{
+							"key": "ack",
+							"value": null,
+							"description": "(Optional)Specifies whether REST++ needs to get acknowledgement from GPEs.\n• If set to \"none\", it doesn't need to get acknowledgement from any GPE.\n• If set to \"all\" (default), it needs to get acknowledgement from all GPEs.",
+							"disabled": true
+						},
+						{
+							"key": "timeout",
+							"value": null,
+							"description": "(Optional) Timeout in seconds. If set to 0, use system-wide endpoint timeout setting.",
+							"disabled": true
+						},
+						{
+							"key": "vertexmustexist",
+							"value": null,
+							"description": "(Optional) if set to true, skips loading edges if both vertices do not exist.",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "graph_name",
+							"value": "{{graph_name}}",
+							"description": "(Optional) The name of the graph (REQUIRED in case of multiple graph in the database)."
+						}
+					]
+				},
+				"description": "This endpoint is for loading data the the graph called `graph_name`.\n\nIn the request you **must** specify the `filename=` parameter in the query. Its value **must** refer to _filevar_ specified by a `DEFINE FILENAME` statement in your loader job (its name is specified by the required `tag` parameter). The REST API request will run the loading job with the `USING` clause, setting a new value to the referenced _filevar_. (This new value will be some temporary directory on the server's local disk into which the data file has been uploaded by the REST API request). Thus, if there was a hard-coded reference to a file path, that is lost/ignored.\n\nFurthermore, according to the [documentation](https://docs.tigergraph.com/dev/gsql-ref/ddl-and-loading/running-a-loading-job#options), if a loading job is run with the `USING` clause, then only those steps in the loading job will be executed whose _filevar_ is mentioned in the `USING` clause. Since you can specify only one `filename=` parameter in the REST API URL, you can load only one file in a single request, and that file will be the one that you just uploaded. The rest of _filevars_ will be ignored and so will be the matching loading steps. The documentation also says that if the `USING` clause is omitted, then the entire loading job will be run, but you can't trick the REST API into this, as you cannot omit the `filename=` parameter.\n\nSo, if you have to load a number of different files, you need to call the `/ddl/` request once for each. The good news is that you can have a single loading job, all you need to do is to refer to a different _filevar_ each time.\n\nExample:\nIf your loading job is something like this:\n```sql\nCREATE LOADING JOB MyJob FOR GRAPH MyGraph {\n\n    DEFINE FILENAME f1;\n    DEFINE FILENAME f2;\n\n    LOAD f1\n        TO VERTEX v1 VALUES (...)\n        USING SEPARATOR = \",\";\n\n    LOAD f2\n        TO EDGE e1 VALUES (...)\n        USING SEPARATOR = \",\";\n}\n```\nthen you can/need to call the REST API twice:\n```shell\ncurl -X POST --data-binary @file1.csv \"http://localhost:9000/ddl/MyGraph?tag=MyJob&tag=f1\"\ncurl -X POST --data-binary @file2.csv \"http://localhost:9000/ddl/MyGraph?tag=MyJob&tag=f2\"\n```\n\nNOTE: you must prefix the filename with \"@\" otherwise the filename itself will be considered the data to be loaded.\n\nhttps://docs.tigergraph.com/dev/restpp-api/built-in-endpoints#post-ddl-graph_name-run-a-loading-job\n\nhttps://docs.tigergraph.com/dev/gsql-ref/ddl-and-loading/running-a-loading-job#running-a-loading-job"
+			},
+			"response": []
+		},
+		{
+			"name": "Request token",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/requesttoken?secret={{token_secret}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"requesttoken"
+					],
+					"query": [
+						{
+							"key": "secret",
+							"value": "{{token_secret}}",
+							"description": "(REQUIRED) The user's secret."
+						},
+						{
+							"key": "lifetime",
+							"value": "",
+							"description": "(Optional) The lifetime for the token, in seconds. The default is one month, approximately 2.6 million seconds.",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Returns a token (that is required for authorisation of other REST++ requests) based on a secret (created in the database by `CREATE SECRET`).\n\nThis endpoint is available and works only if [REST++ authentication](https://docs.tigergraph.com/admin/admin-guide/user-access-management/user-privileges-and-authentication#rest-authentication)  is enabled.\n\nhttps://docs.tigergraph.com/dev/restpp-api/restpp-requests#requesting-a-token-with-get-requesttoken"
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh token",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/requesttoken?secret={{token_secret}}&token={{token}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"requesttoken"
+					],
+					"query": [
+						{
+							"key": "secret",
+							"value": "{{token_secret}}",
+							"description": "(REQUIRED) The user's secret."
+						},
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"description": "(REQUIRED) The token to be refreshed."
+						},
+						{
+							"key": "lifetime",
+							"value": "",
+							"description": "(Optional) The lifetime for the token, in seconds. The default is one month, approximately 2.6 million seconds.",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Refreshes a token (that is required for authorisation of other REST++ requests) based on a secret (requested via `GET_requesttoken`).\n\nThis endpoint is available and works only if [REST++ authentication](https://docs.tigergraph.com/admin/admin-guide/user-access-management/user-privileges-and-authentication#rest-authentication)  is enabled.\n\nhttps://docs.tigergraph.com/dev/restpp-api/restpp-requests#refreshing-tokens"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete token",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}:{{port}}/requesttoken?secret={{token_secret}}&token={{token}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"requesttoken"
+					],
+					"query": [
+						{
+							"key": "secret",
+							"value": "{{token_secret}}",
+							"description": "(REQUIRED) The user's secret."
+						},
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"description": "(REQUIRED) The token to be deleted."
+						}
+					]
+				},
+				"description": "Deletes a token (that is required for authorisation of other REST++ requests).\n\nThis endpoint is available and works only if [REST++ authentication](https://docs.tigergraph.com/admin/admin-guide/user-access-management/user-privileges-and-authentication#rest-authentication)  is enabled.\n\nhttps://docs.tigergraph.com/dev/restpp-api/restpp-requests#deleting-tokens"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "o4ib762mnvh26ih9ua2lb23ojvsb7toi",
+				"type": "string"
+			}
+		]
+	},
+	"protocolProfileBehavior": {}
+}
